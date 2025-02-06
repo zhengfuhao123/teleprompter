@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">提词器</string>
+    <string name="display_content">显示内容</string>
+    <string name="display_settings">显示设置</string>
+    <string name="show">显 示</string>
+    <string name="home_et_hint">在这里输入显示内容…</string>
+    <string name="home_import">粘贴</string>
+    <string name="home_save">保存</string>
+    <string name="text_color">文字颜色</string>
+    <string name="float_background">提词背景</string>
+    <string name="import_success">粘贴成功</string>
+    <string name="import_fail">剪切板无内容</string>
+    <string name="save_success">设置成功</string>
+</resources>

@@ -3,7 +3,10 @@ package com.zfh.teleprompter.mvp.main
 interface Contract {
 
     interface View {
-
+        fun onTextSizeChange()
+        fun onTextChange()
+        fun onTextColorChange()
+        fun onBackgroundChange()
     }
 
     interface Presenter {
@@ -16,6 +19,8 @@ interface Contract {
         fun reduceTextSize()
 
         fun setTextColor(color: Int)
+
+        fun setBackgroundColor(color: Int)
     }
 
 }

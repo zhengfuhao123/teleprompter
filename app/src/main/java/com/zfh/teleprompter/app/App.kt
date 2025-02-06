@@ -1,17 +1,19 @@
 package com.zfh.teleprompter.app
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import com.zfh.teleprompter.Options
+import com.zfh.teleprompter.utils.SPHelper
 
 class App : Application() {
 
     companion object {
-        const val TAG = "App"
+        @SuppressLint("StaticFieldLeak")
         private var context: Context? = null
+
+        @SuppressLint("StaticFieldLeak")
         private var app: App? = null
-        fun getContext(): Context? {
-            return context
-        }
 
         fun getApp(): App? {
             return app
@@ -26,6 +28,8 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         app = this
+        SPHelper.init(this)
+        Options.init()
     }
 
 }
