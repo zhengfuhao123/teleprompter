@@ -12,21 +12,45 @@ android {
         minSdk 24
         targetSdk 34
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+
+        release {
+            storeFile file('teleprompter.keystore')
+            storePassword 'teleprompter'
+            keyAlias 'teleprompter'
+            keyPassword 'teleprompter'
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def projectName = "teleprompter" // 自定义项目名称
+            def buildType = variant.buildType.name // 构建类型（release/debug）
+            def versionName = variant.versionName // 版本名称
+
+            // 定义APK名称格式
+            outputFileName = "${projectName}_${buildType}_${versionName}.apk"
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
