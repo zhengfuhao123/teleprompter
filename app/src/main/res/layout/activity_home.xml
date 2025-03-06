@@ -75,7 +75,7 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_rounded_8_212936"
+            android:background="@drawable/selector_normal_btn"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -100,7 +100,7 @@
             android:layout_height="60dp"
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_rounded_8_212936"
+            android:background="@drawable/selector_normal_btn"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -202,7 +202,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="文字大小"
+            android:text="@string/text_size"
             android:textColor="@color/white"
             android:textSize="17dp"
             android:textStyle="bold" />
@@ -225,6 +225,23 @@
             android:textColor="@color/white"
             android:textSize="17dp"
             android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/home_show_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/selector_normal_btn"
+        android:gravity="center"
+        android:paddingVertical="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/show_local_image"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 

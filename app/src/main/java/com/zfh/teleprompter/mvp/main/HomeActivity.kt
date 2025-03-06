@@ -1,17 +1,24 @@
 package com.zfh.teleprompter.mvp.main
 
+import android.Manifest
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.lzf.easyfloat.EasyFloat
@@ -19,56 +26,42 @@ import com.lzf.easyfloat.enums.ShowPattern
 import com.zfh.teleprompter.Options
 import com.zfh.teleprompter.R
 import com.zfh.teleprompter.app.App
+import com.zfh.teleprompter.databinding.ActivityHomeBinding
 import com.zfh.teleprompter.ext.gone
 import com.zfh.teleprompter.ext.selectColor
 import com.zfh.teleprompter.ext.visible
+import com.zfh.teleprompter.widget.ScaleImage
+import permissions.dispatcher.NeedsPermission
+import permissions.dispatcher.OnPermissionDenied
+import permissions.dispatcher.RuntimePermissions
 
+
+@RuntimePermissions
 class HomeActivity : AppCompatActivity(), Contract.View {
 
     companion object {
-        private const val FLOAT_TAG = "teleprompter"
+        private const val FLOAT_TEXT_TAG = "textFloat"
+        private const val FLOAT_IMAGE_TAG = "imageFloat"
     }
 
-    private lateinit var mEt: EditText
-    private lateinit var mEtClearView: View
-    private lateinit var mImportView: View
-    private lateinit var mSaveView: View
-    private lateinit var mShowView: TextView
-    private lateinit var mColorPickView: View
-    private lateinit var mTextColorView: View
-    private lateinit var mBackgroundColorView: View
-    private lateinit var mTextSizeSeekBar: SeekBar
-    private lateinit var mTextSizeTextView: TextView
+    private val binding by lazy { ActivityHomeBinding.inflate(layoutInflater) }
 
     private lateinit var presenter: Contract.Presenter
     private var isShowing = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        setContentView(binding.root)
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimaryDark)
 
         presenter = MainPresenter(this)
+        binding.homeTextColor.setBackgroundColor(Options.mTextColor)
+        binding.homeBackgroundColor.setBackgroundColor(Options.mBackgroundColor)
+        binding.homeTextSizeSeekbar.progress = Options.mTextSize
+        binding.homeTextSizeTv.text = Options.mTextSize.toString()
 
-        mEt = findViewById(R.id.home_et)
-        mEtClearView = findViewById(R.id.home_et_clear)
-        mImportView = findViewById(R.id.home_import)
-        mSaveView = findViewById(R.id.home_save)
-        mShowView = findViewById(R.id.home_exhibit)
-        mColorPickView = findViewById(R.id.home_color_pick)
-        mTextColorView =
-            findViewById<View>(R.id.home_text_color).apply { setBackgroundColor(Options.mTextColor) }
-        mBackgroundColorView =
-            findViewById<View>(R.id.home_background_color).apply { setBackgroundColor(Options.mBackgroundColor) }
-
-        mTextSizeSeekBar = findViewById(R.id.home_text_size_seekbar)
-
-        mTextSizeTextView = findViewById(R.id.home_text_size_tv)
-
-        mTextSizeSeekBar.progress = Options.mTextSize
-        mTextSizeTextView.text = Options.mTextSize.toString()
-
-        mTextSizeSeekBar.setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
+        binding.homeTextSizeSeekbar.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 presenter.setTextSize(progress)
             }
@@ -79,35 +72,35 @@ class HomeActivity : AppCompatActivity(), Contract.View {
 
         })
 
-        mImportView.setOnClickListener {
-            importClipboard(mEt)
+        binding.homeImport.setOnClickListener {
+            importClipboard(binding.homeEt)
         }
 
-        mEtClearView.setOnClickListener {
-            mEt.setText("")
+        binding.homeEtClear.setOnClickListener {
+            binding.homeEt.setText("")
         }
 
-        mSaveView.setOnClickListener {
-            presenter.setText(mEt.text.toString())
+        binding.homeSave.setOnClickListener {
+            presenter.setText(binding.homeEt.text.toString())
             Toast.makeText(this, R.string.save_success, Toast.LENGTH_SHORT).show()
         }
 
-        mColorPickView.setOnClickListener {
+        binding.homeColorPick.setOnClickListener {
             selectColor { color ->
                 presenter.setTextColor(color)
             }
         }
 
-        mBackgroundColorView.setOnClickListener {
+        binding.homeBackgroundColor.setOnClickListener {
             selectColor { color ->
                 presenter.setBackgroundColor(color)
             }
         }
 
-        mShowView.setOnClickListener {
+        binding.homeExhibit.setOnClickListener {
             isShowing = if (isShowing) {
                 it.setBackgroundResource(R.drawable.bg_rounded_8_212936)
-                EasyFloat.dismiss(FLOAT_TAG)
+                EasyFloat.dismiss(FLOAT_TEXT_TAG)
                 false
             } else {
                 it.setBackgroundResource(R.drawable.bg_rounded_8_00aa00)
@@ -118,28 +111,84 @@ class HomeActivity : AppCompatActivity(), Contract.View {
                     .setShowPattern(ShowPattern.ALL_TIME)
                     .setDragEnable(true)
                     .setGravity(Gravity.CENTER)
-                    .setTag(FLOAT_TAG)
+                    .setTag(FLOAT_TEXT_TAG)
                     //.setFilter(HomeActivity::class.java)
                     .show()
                 true
             }
         }
 
-        mEt.addTextChangedListener(object : TextWatcher {
+        binding.homeEt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.isNullOrEmpty()) {
-                    mEtClearView.gone()
+                    binding.homeEtClear.gone()
                 } else {
-                    mEtClearView.visible()
+                    binding.homeEtClear.visible()
                 }
             }
 
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        mEt.setText(Options.mText)
+        binding.homeEt.setText(Options.mText)
+
+        binding.homeShowImage.setOnClickListener {
+            openImagePicker()
+        }
     }
+
+    @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+    private fun openImagePicker() {
+        getContent.launch("image/*")
+    }
+
+    @OnPermissionDenied(Manifest.permission.READ_EXTERNAL_STORAGE)
+    private fun onReadExternalDenied() {
+        Toast.makeText(this, "获取权限失败", Toast.LENGTH_SHORT).show()
+    }
+
+    // 在 Activity 中定义 ActivityResultLauncher
+    private val getContent =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let {
+                showAppFloat2(it)
+            }
+        }
+
+    private fun showAppFloat2(imageUri: Uri) {
+        EasyFloat.with(this.applicationContext)
+            .setTag(FLOAT_IMAGE_TAG)
+            .setShowPattern(ShowPattern.ALL_TIME)
+            .setGravity(Gravity.CENTER)
+            .setLayout(R.layout.float_app_scale) {
+                val content = it.findViewById<RelativeLayout>(R.id.rlContent)
+                val iv = it.findViewById<ImageView>(R.id.ivContent)
+                iv.setImageURI(imageUri)
+                val params = content.layoutParams as FrameLayout.LayoutParams
+                it.findViewById<ScaleImage>(R.id.ivScale).onScaledListener =
+                    object : ScaleImage.OnScaledListener {
+                        override fun onScaled(x: Float, y: Float, event: MotionEvent) {
+                            params.width = kotlin.math.max(params.width + x.toInt(), 400)
+                            params.height = kotlin.math.max(params.height + y.toInt(), 300)
+                            // 更新xml根布局的大小
+//                            content.layoutParams = params
+                            // 更新悬浮窗的大小，可以避免在其他应用横屏时，宽度受限
+                            EasyFloat.updateFloat(
+                                FLOAT_IMAGE_TAG,
+                                width = params.width,
+                                height = params.height
+                            )
+                        }
+                    }
+
+                it.findViewById<ImageView>(R.id.ivClose).setOnClickListener {
+                    EasyFloat.dismiss(FLOAT_IMAGE_TAG)
+                }
+            }
+            .show()
+    }
+
 
     private fun initFloat(view: View) {
         view.setOnClickListener {
@@ -172,25 +221,25 @@ class HomeActivity : AppCompatActivity(), Contract.View {
     }
 
     override fun onTextSizeChange() {
-        val view = EasyFloat.getFloatView(FLOAT_TAG)
+        val view = EasyFloat.getFloatView(FLOAT_TEXT_TAG)
         view?.findViewById<TextView>(R.id.floatingText)?.textSize = Options.mTextSize.toFloat()
-        mTextSizeTextView.text = Options.mTextSize.toString()
+        binding.homeTextSizeTv.text = Options.mTextSize.toString()
     }
 
     override fun onTextChange() {
-        val view = EasyFloat.getFloatView(FLOAT_TAG)
+        val view = EasyFloat.getFloatView(FLOAT_TEXT_TAG)
         view?.findViewById<TextView>(R.id.floatingText)?.text = Options.mText
     }
 
     override fun onTextColorChange() {
-        val view = EasyFloat.getFloatView(FLOAT_TAG)
+        val view = EasyFloat.getFloatView(FLOAT_TEXT_TAG)
         view?.findViewById<TextView>(R.id.floatingText)?.setTextColor(Options.mTextColor)
-        mTextColorView.setBackgroundColor(Options.mTextColor)
+        binding.homeTextColor.setBackgroundColor(Options.mTextColor)
     }
 
     override fun onBackgroundChange() {
-        val view = EasyFloat.getFloatView(FLOAT_TAG)
+        val view = EasyFloat.getFloatView(FLOAT_TEXT_TAG)
         view?.setBackgroundColor(Options.mBackgroundColor)
-        mBackgroundColorView.setBackgroundColor(Options.mBackgroundColor)
+        binding.homeBackgroundColor.setBackgroundColor(Options.mBackgroundColor)
     }
 }

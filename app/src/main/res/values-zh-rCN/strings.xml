@@ -12,4 +12,6 @@
     <string name="import_success">粘贴成功</string>
     <string name="import_fail">剪切板无内容</string>
     <string name="save_success">设置成功</string>
+    <string name="text_size">文字大小</string>
+    <string name="show_local_image">显示本地图片</string>
 </resources>

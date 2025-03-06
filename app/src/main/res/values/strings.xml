@@ -11,4 +11,6 @@
     <string name="import_success">import success.</string>
     <string name="import_fail">clipboard is empty.</string>
     <string name="save_success">save success.</string>
+    <string name="text_size">TextSize</string>
+    <string name="show_local_image">Show local image</string>
 </resources>
