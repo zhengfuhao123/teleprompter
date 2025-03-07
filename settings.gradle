@@ -11,6 +11,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url 'https://jitpack.io' }
+        maven { url "https://tencent-tds-maven.pkg.coding.net/repository/shiply/repo" }
     }
 }
 rootProject.name = "teleprompter"
