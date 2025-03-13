@@ -3,11 +3,14 @@ package com.zfh.teleprompter.app
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 import com.tencent.upgrade.bean.UpgradeConfig
 import com.tencent.upgrade.core.DefaultUpgradeStrategyRequestCallback
 import com.tencent.upgrade.core.UpgradeManager
 import com.zfh.teleprompter.Options
+import com.zfh.teleprompter.activity.mvp.setting.ThemeActivity
 import com.zfh.teleprompter.utils.SPHelper
+import com.zfh.teleprompter.utils.ThemeHelper
 
 
 class App : Application() {
@@ -33,9 +36,11 @@ class App : Application() {
         super.onCreate()
         app = this
         SPHelper.init(this)
+        ThemeHelper.loadTheme()
         Options.init()
         initShiply()
     }
+
 
     // 初始化OTA组件
     private fun initShiply() {
@@ -51,11 +56,6 @@ class App : Application() {
         //App 首次启动时自动检查更新
         UpgradeManager.getInstance()
             .checkUpgrade(false, null, DefaultUpgradeStrategyRequestCallback())
-
-        //用户主动触发检查更新
-//        UpgradeManager.getInstance()
-//            .checkUpgrade(true, null, UpgradeReqCallbackForUserManualCheck())
-
     }
 
 }

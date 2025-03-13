@@ -16,9 +16,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Teleprompter"
         tools:targetApi="31">
-
         <activity
-            android:name=".mvp.main.HomeActivity"
+            android:name=".activity.mvp.setting.ThemeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.mvp.setting.SettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.mvp.main.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#121826"
+    android:background="@color/activity_bg"
     android:orientation="vertical"
     android:padding="20dp">
 
@@ -16,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/display_content"
-            android:textColor="@color/white"
+            android:textColor="@color/textNormal"
             android:textSize="30dp"
             android:textStyle="bold" />
 
@@ -25,12 +26,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/bg_rounded_8_212936"
+            android:background="@drawable/bg_card"
             android:drawableLeft="@drawable/ic_play"
+            android:drawableTint="@color/textNormal"
             android:drawablePadding="5dp"
             android:padding="10dp"
             android:text="@string/show"
-            android:textColor="@color/white" />
+            android:textColor="@color/textNormal" />
 
 
     </LinearLayout>
@@ -44,12 +46,12 @@
             android:id="@+id/home_et"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:background="@drawable/bg_rounded_8_212936"
+            android:background="@drawable/bg_card"
             android:gravity="start"
             android:hint="@string/home_et_hint"
             android:padding="15dp"
-            android:textColor="#9da3ae"
-            android:textColorHint="#9da3ae" />
+            android:textColor="@color/subText"
+            android:textColorHint="@color/subText" />
 
         <ImageView
             android:id="@+id/home_et_clear"
@@ -82,14 +84,15 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_paste" />
+                android:src="@drawable/ic_paste"
+                app:tint="@color/textNormal" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:text="@string/home_import"
-                android:textColor="@color/white"
+                android:textColor="@color/textNormal"
                 android:textSize="17dp" />
 
         </LinearLayout>
@@ -107,6 +110,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                app:tint="@color/textNormal"
                 android:src="@drawable/ic_save" />
 
             <TextView
@@ -114,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:text="@string/home_save"
-                android:textColor="@color/white"
+                android:textColor="@color/textNormal"
                 android:textSize="17dp" />
 
         </LinearLayout>
@@ -126,124 +130,154 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:text="@string/display_settings"
-        android:textColor="@color/white"
+        android:textColor="@color/textNormal"
         android:textSize="30dp"
         android:textStyle="bold" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginTop="25dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/home_color_pick"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/bg_rounded_8_212936"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/home_color_pick"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_card"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_color"
+                        android:textColor="@color/textNormal"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/home_text_color"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_card"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/float_background"
+                        android:textColor="@color/textNormal"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/home_background_color"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/bg_card"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_size"
+                    android:textColor="@color/textNormal"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <SeekBar
+                    android:id="@+id/home_text_size_seekbar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:max="30"
+                    android:min="10" />
+
+                <TextView
+                    android:id="@+id/home_text_size_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="15"
+                    android:textColor="@color/textNormal"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/home_show_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/selector_normal_btn"
+                android:gravity="center"
+                android:paddingVertical="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/show_local_image"
+                    android:textColor="@color/textNormal" />
+
+            </LinearLayout>
 
             <TextView
+                android:id="@+id/home_setting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/text_color"
-                android:textColor="@color/white"
-                android:textSize="16dp"
-                android:textStyle="bold" />
-
-            <View
-                android:id="@+id/home_text_color"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/white" />
+                android:layout_gravity="end"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/selector_normal_btn"
+                android:drawableLeft="@drawable/ic_setting"
+                android:drawablePadding="4dp"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp"
+                android:text="设置"
+                android:drawableTint="@color/textNormal"
+                android:textColor="@color/textNormal"
+                android:textSize="18dp" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_rounded_8_212936"
-            android:orientation="vertical"
-            android:padding="20dp">
+    </ScrollView>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/float_background"
-                android:textColor="@color/white"
-                android:textSize="16dp"
-                android:textStyle="bold" />
-
-            <View
-                android:id="@+id/home_background_color"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/white" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/bg_rounded_8_212936"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_size"
-            android:textColor="@color/white"
-            android:textSize="17dp"
-            android:textStyle="bold" />
-
-        <SeekBar
-            android:id="@+id/home_text_size_seekbar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:max="30"
-            android:min="10" />
-
-        <TextView
-            android:id="@+id/home_text_size_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="15"
-            android:textColor="@color/white"
-            android:textSize="17dp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/home_show_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/selector_normal_btn"
-        android:gravity="center"
-        android:paddingVertical="15dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/show_local_image"
-            android:textColor="@color/white" />
-
-    </LinearLayout>
 
 
 </LinearLayout>

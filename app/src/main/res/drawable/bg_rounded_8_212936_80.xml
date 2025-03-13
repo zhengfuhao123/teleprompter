@@ -4,6 +4,6 @@
     <corners android:radius="8dp" />
 
     <!-- 设置背景颜色 -->
-    <solid android:color="#CC212936" />
+    <solid android:color="@color/bg_card_press" />
 
 </shape>
