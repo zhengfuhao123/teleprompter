@@ -1,6 +1,7 @@
 package com.zfh.teleprompter.activity.mvp.main
 
 import com.zfh.teleprompter.Options
+import com.zfh.teleprompter.db.DBHelper
 
 class MainPresenter(private val view: HomeContract.View) : HomeContract.Presenter {
 
@@ -11,6 +12,7 @@ class MainPresenter(private val view: HomeContract.View) : HomeContract.Presente
             Options.mText = msg
         }
         view.onTextChange()
+        DBHelper.insert(msg)
     }
 
     override fun setTextSize(size: Int) {
@@ -42,6 +44,17 @@ class MainPresenter(private val view: HomeContract.View) : HomeContract.Presente
     override fun setBackgroundColor(color: Int) {
         Options.mBackgroundColor = color
         view.onBackgroundChange()
+    }
+
+    override fun setImageAlpha(alpha: Int) {
+        var realAlpha = alpha
+        if (alpha <= 0) realAlpha = 1
+        if (alpha >= 100) realAlpha = 255
+
+        realAlpha = alpha * 255 / 100
+
+        Options.mImageAlpha = realAlpha
+        view.onImageAlphaChange()
     }
 
 }

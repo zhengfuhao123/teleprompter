@@ -17,7 +17,10 @@
         android:theme="@style/Theme.Teleprompter"
         tools:targetApi="31">
         <activity
-            android:name=".activity.mvp.setting.ThemeActivity"
+            android:name=".activity.mvp.setting.history.HistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.mvp.setting.theme.ThemeActivity"
             android:exported="false" />
         <activity
             android:name=".activity.mvp.setting.SettingActivity"

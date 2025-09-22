@@ -29,9 +29,10 @@ abstract class BaseActivity : AppCompatActivity() {
 
     private fun initViews() {
         super.setContentView(getFrameLayoutId())
-        if (isSystemBarTransparent())  {
+        if (isSystemBarTransparent()) {
             window.statusBarColor = ContextCompat.getColor(this, R.color.activity_bg)
-            val night = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+            val night =
+                (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
             if (Build.VERSION.SDK_INT >= 31) {
                 val controller = WindowCompat.getInsetsController(window, window.decorView)
                 controller.isAppearanceLightStatusBars = !night
@@ -63,6 +64,10 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun setTitleText(resId: Int) {
         mTitle.setText(resId)
+    }
+
+    fun getTitleView(): TextView {
+        return mTitle
     }
 
     protected open fun setContentLayoutView(pLayoutID: Int) {

@@ -3,12 +3,11 @@ package com.zfh.teleprompter.app
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
-import androidx.appcompat.app.AppCompatDelegate
 import com.tencent.upgrade.bean.UpgradeConfig
 import com.tencent.upgrade.core.DefaultUpgradeStrategyRequestCallback
 import com.tencent.upgrade.core.UpgradeManager
 import com.zfh.teleprompter.Options
-import com.zfh.teleprompter.activity.mvp.setting.ThemeActivity
+import com.zfh.teleprompter.db.DBHelper
 import com.zfh.teleprompter.utils.SPHelper
 import com.zfh.teleprompter.utils.ThemeHelper
 
@@ -20,9 +19,9 @@ class App : Application() {
         private var context: Context? = null
 
         @SuppressLint("StaticFieldLeak")
-        private var app: App? = null
+        private lateinit var app: Application
 
-        fun getApp(): App? {
+        fun getApp(): Application {
             return app
         }
     }
@@ -35,6 +34,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         app = this
+        DBHelper.init(this)
         SPHelper.init(this)
         ThemeHelper.loadTheme()
         Options.init()

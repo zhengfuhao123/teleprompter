@@ -6,6 +6,36 @@
     android:background="@android:color/transparent"
     android:orientation="vertical">
 
+    <!--历史记录-->
+    <LinearLayout
+        android:id="@+id/setting_history"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="@drawable/selector_normal_btn"
+        android:paddingHorizontal="15dp"
+        android:gravity="center_vertical"
+        android:paddingVertical="15dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="历史记录"
+            android:textColor="@color/textNormal" />
+
+        <ImageView
+            android:layout_marginLeft="5dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/ic_arrow_right"
+            app:tint="@color/subText" />
+
+    </LinearLayout>
+
+    <!--设置主题-->
     <LinearLayout
         android:id="@+id/setting_theme"
         android:layout_marginHorizontal="20dp"
@@ -18,6 +48,7 @@
         android:gravity="center_vertical">
 
         <TextView
+            android:id="@+id/tv_theme"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -40,6 +71,7 @@
 
     </LinearLayout>
 
+    <!--版本-->
     <LinearLayout
         android:id="@+id/setting_version"
         android:layout_marginHorizontal="20dp"
@@ -73,7 +105,7 @@
 
     </LinearLayout>
 
-
+    <!--关于-->
     <LinearLayout
         android:id="@+id/setting_about"
         android:layout_marginHorizontal="20dp"
@@ -83,13 +115,22 @@
         android:orientation="horizontal"
         android:background="@drawable/selector_normal_btn"
         android:paddingHorizontal="15dp"
+        android:gravity="center_vertical"
         android:paddingVertical="15dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="关于"
             android:textColor="@color/textNormal" />
+
+        <ImageView
+            android:layout_marginLeft="5dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/ic_arrow_right"
+            app:tint="@color/subText" />
 
     </LinearLayout>
 

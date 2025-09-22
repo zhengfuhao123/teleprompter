@@ -9,6 +9,8 @@ import com.tencent.upgrade.bean.UpgradeStrategy
 import com.tencent.upgrade.core.UpgradeManager
 import com.tencent.upgrade.core.UpgradeReqCallbackForUserManualCheck
 import com.zfh.teleprompter.activity.BaseActivity
+import com.zfh.teleprompter.activity.mvp.setting.history.HistoryActivity
+import com.zfh.teleprompter.activity.mvp.setting.theme.ThemeActivity
 import com.zfh.teleprompter.databinding.ActivitySettingBinding
 import com.zfh.teleprompter.ext.gone
 import com.zfh.teleprompter.ext.visible
@@ -36,6 +38,10 @@ class SettingActivity : BaseActivity() {
             ThemeActivity.start(this)
         }
 
+        binding.settingHistory.setOnClickListener {
+            HistoryActivity.start(this)
+        }
+
         binding.settingVersion.setOnClickListener {
             setCheckingUpgrade(true)
             //用户主动触发检查更新
@@ -48,8 +54,6 @@ class SettingActivity : BaseActivity() {
 
                     override fun onFail(p0: Int, p1: String?) {
                         super.onFail(p0, p1)
-                        Toast.makeText(this@SettingActivity, "获取数据异常", Toast.LENGTH_SHORT)
-                            .show()
                         setCheckingUpgrade(false)
                     }
 

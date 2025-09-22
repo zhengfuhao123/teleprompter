@@ -125,17 +125,41 @@
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="@string/display_settings"
-        android:textColor="@color/textNormal"
-        android:textSize="30dp"
-        android:textStyle="bold" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/display_settings"
+            android:textColor="@color/textNormal"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/home_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/selector_normal_btn"
+            android:drawableLeft="@drawable/ic_setting"
+            android:drawablePadding="4dp"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="6dp"
+            android:text="设置"
+            android:drawableTint="@color/textNormal"
+            android:textColor="@color/textNormal"
+            android:textSize="18dp" />
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
+        android:scrollbars="none"
         android:layout_height="wrap_content">
 
         <LinearLayout
@@ -242,6 +266,44 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/bg_card"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="图片透明度"
+                    android:textColor="@color/textNormal"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <SeekBar
+                    android:id="@+id/home_image_alpha_seekbar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:min="0" />
+
+                <TextView
+                    android:id="@+id/home_image_alpha_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="15"
+                    android:textColor="@color/textNormal"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/home_show_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -258,21 +320,6 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/home_setting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/selector_normal_btn"
-                android:drawableLeft="@drawable/ic_setting"
-                android:drawablePadding="4dp"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="10dp"
-                android:text="设置"
-                android:drawableTint="@color/textNormal"
-                android:textColor="@color/textNormal"
-                android:textSize="18dp" />
 
         </LinearLayout>
 

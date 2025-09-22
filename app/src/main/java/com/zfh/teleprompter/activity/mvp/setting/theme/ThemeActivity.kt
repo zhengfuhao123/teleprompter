@@ -1,4 +1,4 @@
-package com.zfh.teleprompter.activity.mvp.setting
+package com.zfh.teleprompter.activity.mvp.setting.theme
 
 import android.content.Context
 import android.content.Intent
@@ -8,10 +8,7 @@ import com.zfh.teleprompter.activity.BaseActivity
 import com.zfh.teleprompter.databinding.ActivityThemeBinding
 import com.zfh.teleprompter.ext.gone
 import com.zfh.teleprompter.ext.visible
-import com.zfh.teleprompter.utils.SPHelper
 import com.zfh.teleprompter.utils.ThemeHelper
-import com.zfh.teleprompter.utils.ThemeHelper.KEY_IS_FOLLOW
-import com.zfh.teleprompter.utils.ThemeHelper.KEY_MODE
 
 class ThemeActivity : BaseActivity() {
 
@@ -29,6 +26,7 @@ class ThemeActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTitleText("主题设置")
         setContentLayoutView(binding.root)
 
         refreshUI()

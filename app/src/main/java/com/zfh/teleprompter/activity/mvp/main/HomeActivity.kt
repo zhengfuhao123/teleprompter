@@ -23,6 +23,8 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.WindowCompat
 import com.lzf.easyfloat.EasyFloat
 import com.lzf.easyfloat.enums.ShowPattern
@@ -31,10 +33,14 @@ import com.zfh.teleprompter.R
 import com.zfh.teleprompter.activity.mvp.setting.SettingActivity
 import com.zfh.teleprompter.app.App
 import com.zfh.teleprompter.databinding.ActivityHomeBinding
+import com.zfh.teleprompter.event.Event
 import com.zfh.teleprompter.ext.gone
 import com.zfh.teleprompter.ext.selectColor
 import com.zfh.teleprompter.ext.visible
 import com.zfh.teleprompter.widget.ScaleImage
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.OnPermissionDenied
 import permissions.dispatcher.RuntimePermissions
@@ -65,15 +71,38 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         }
 
         presenter = MainPresenter(this)
+        initView()
+
+        if (!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this)
+        }
+
+    }
+
+    private fun initView(){
         binding.homeTextColor.setBackgroundColor(Options.mTextColor)
         binding.homeBackgroundColor.setBackgroundColor(Options.mBackgroundColor)
         binding.homeTextSizeSeekbar.progress = Options.mTextSize
+        binding.homeImageAlphaSeekbar.progress = Options.mImageAlpha
         binding.homeTextSizeTv.text = Options.mTextSize.toString()
+        binding.homeImageAlphaTv.text = getAlphaFrom16(Options.mImageAlpha).toString()
 
         binding.homeTextSizeSeekbar.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 presenter.setTextSize(progress)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+
+        })
+
+        binding.homeImageAlphaSeekbar.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                presenter.setImageAlpha(progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -162,6 +191,11 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         Toast.makeText(this, "获取权限失败", Toast.LENGTH_SHORT).show()
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onTextChangeEvent(event: Event.onTextChange){
+        onTextChange()
+    }
+
     // 在 Activity 中定义 ActivityResultLauncher
     private val getContent =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -178,6 +212,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
             .setLayout(R.layout.float_app_scale) {
                 val content = it.findViewById<RelativeLayout>(R.id.rlContent)
                 val iv = it.findViewById<ImageView>(R.id.ivContent)
+                iv.imageAlpha = Options.mImageAlpha
                 iv.setImageURI(imageUri)
                 val params = content.layoutParams as FrameLayout.LayoutParams
                 it.findViewById<ScaleImage>(R.id.ivScale).onScaledListener =
@@ -241,6 +276,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
     }
 
     override fun onTextChange() {
+        binding.homeEt.setText(Options.mText)
         val view = EasyFloat.getFloatView(FLOAT_TEXT_TAG)
         view?.findViewById<TextView>(R.id.floatingText)?.text = Options.mText
     }
@@ -255,5 +291,22 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         val view = EasyFloat.getFloatView(FLOAT_TEXT_TAG)
         view?.setBackgroundColor(Options.mBackgroundColor)
         binding.homeBackgroundColor.setBackgroundColor(Options.mBackgroundColor)
+    }
+
+    override fun onImageAlphaChange() {
+        val view = EasyFloat.getFloatView(FLOAT_IMAGE_TAG)
+        view?.findViewById<ImageView>(R.id.ivContent)?.imageAlpha = Options.mImageAlpha
+        binding.homeImageAlphaTv.text = getAlphaFrom16(Options.mImageAlpha).toString()
+    }
+
+    /**
+     * @param alpha16 16进制的值
+     * @return 1-100
+     * 获取百分比 255，如 传入128 会返回 50
+     */
+    private fun getAlphaFrom16(alpha16: Int): Int {
+        if (alpha16 <= 0) return 0
+        if (alpha16 >= 255) return 100
+        return alpha16 * 100 / 255
     }
 }
